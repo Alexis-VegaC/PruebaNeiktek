@@ -1,0 +1,45 @@
+﻿<!-- Pages/Metas.razor -->
+@page "/metas"
+@using PruebaNeitek.Services
+@inject MetaService MetaService
+
+<h3>Listado de Metas</h3>
+
+@foreach (var meta in MetaService.ObtenerMetas())
+{
+    <div class="meta">
+        <h4>@meta.Nombre</h4>
+        <p>Fecha de Creación: @meta.FechaCreada.ToShortDateString()</p>
+        <p>Porciento de Cumplimiento: @meta.PorcientoCumplimiento%</p>
+        <p>Tareas Completadas: @meta.CantidadTareasCompletadas / @meta.Tareas.Count</p>
+        <progress value="@meta.PorcientoCumplimiento" max="100"></progress>
+        <button @onclick="() => EditarMeta(meta.Id)">Editar</button>
+        <button @onclick="() => EliminarMeta(meta.Id)">Eliminar</button>
+        <div class="tareas">
+            @foreach (var tarea in meta.Tareas)
+            {
+               @*  <p>
+                    <input type="checkbox" @bind="@tarea.Completada" @onchange="() => CompletarTarea(meta.Id, tarea.Id)" />
+                    @tarea.Descripcion
+                </p> *@
+            }
+        </div>
+    </div>
+}
+
+@code {
+    private void EditarMeta(int id)
+    {
+        // Implementar la lógica para editar una meta
+    }
+
+    private void EliminarMeta(int id)
+    {
+        MetaService.EliminarMeta(id);
+    }
+
+    private void CompletarTarea(int metaId, int tareaId)
+    {
+        MetaService.CompletarTarea(metaId, tareaId);
+    }
+}
