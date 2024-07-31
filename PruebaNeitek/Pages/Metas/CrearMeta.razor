@@ -1,0 +1,28 @@
+﻿<!-- Pages/CrearMeta.razor -->
+@page "/crear-meta"
+@using PruebaNeitek.Models
+@using PruebaNeitek.Services
+@inject MetaService MetaService
+@inject NavigationManager Navigation
+
+<h3>Crear Meta</h3>
+
+<form>
+    <label>Nombre: </label>
+    <input @bind="nombre" />
+    <button @onclick="Guardar">Guardar</button>
+</form>
+
+@code {
+    private string nombre;
+
+    private void Guardar()
+    {
+        var meta = new Meta
+            {
+                Nombre = nombre
+            };
+        MetaService.AgregarMeta(meta);
+        Navigation.NavigateTo("/metas");
+    }
+}

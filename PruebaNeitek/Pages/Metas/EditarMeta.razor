@@ -1,0 +1,34 @@
+﻿<!-- Pages/EditarMeta.razor -->
+@page "/editar-meta/{id:int}"
+@using PruebaNeitek.Models
+@using PruebaNeitek.Services
+@inject MetaService MetaService
+@inject NavigationManager Navigation
+
+<h3>Editar Meta</h3>
+
+@if (meta != null)
+{
+    <form>
+        <label>Nombre: </label>
+        <input @bind="meta.Nombre" />
+        <button @onclick="Guardar">Guardar</button>
+    </form>
+}
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+    private Meta meta;
+
+    protected override void OnInitialized()
+    {
+        meta = MetaService.ObtenerMeta(id);
+    }
+
+    private void Guardar()
+    {
+        MetaService.EditarMeta(meta);
+        Navigation.NavigateTo("/metas");
+    }
+}
